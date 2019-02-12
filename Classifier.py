@@ -46,11 +46,9 @@ class NaiveBayes:
     def predict(self, features):
         result = np.zeros(features.shape[0])
         prob_result = np.zeros((features.shape[0], self.num_of_cat))
-        mask = np.zeros(features.shape)
-        mask[features>=1] = 1
         for i in range(prob_result.shape[0]):
             for j in range(prob_result.shape[1]):
-                temp = mask[i,:]*self.conditional_prob[j,:]
+                temp = np.power(self.conditional_prob[j], features[i])
                 prob_result[i][j] = np.prod(temp[temp>0])
         prob_result = prob_result*self.prior_prob
         prob_result = self.normalize_output_prob(prob_result)
